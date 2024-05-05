@@ -1,8 +1,17 @@
 const std = @import("std");
+const run = @import("run.zig");
 
 pub fn main() !void {
-    std.debug.print("{s}\n", .{std.os.argv});
-    const fname = std.os.argv[1];
-    var file = try std.fs.cwd().readFile(fname, .{});
-    defer file.close();
+    var arg_iter = std.process.args();
+    _ = arg_iter.skip(); // skip prg arg
+
+    // open the file
+    const fname = arg_iter.next() orelse "";
+    var f = try std.fs.cwd().openFile(fname, .{});
+    defer f.close();
+
+    const reader = f.reader();
+    const runner = run.Runner.init(f);
+    try runner.run(reader);
+    // try runner.run(f);
 }
