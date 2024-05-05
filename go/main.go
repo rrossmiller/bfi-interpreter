@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 )
 
 func main() {
 	fname := os.Args[1]
 	src := readFile(fname)
-	r := Runner{}
+	r := Runner{step: true}
 	r.run(src)
 	fmt.Println()
 }
@@ -29,6 +30,7 @@ func readFile(fp string) []rune {
 		panic(err)
 	}
 	s := string(b)
+	s = strings.ReplaceAll(s, "\n", "")
 	src := []rune(s)
 	return src
 }

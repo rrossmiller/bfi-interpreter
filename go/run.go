@@ -1,17 +1,20 @@
 package main
 
 import (
-	// "bufio"
+	"bufio"
 	"fmt"
-	// "os"
+	"os"
 )
 
 type Runner struct {
 	i      int
+	loopI  int
 	cursor int
-	// state  [256]uint8
-	state [12]uint8
+	// state  [256]byte
+	state [12]byte
 	src   []rune
+	out   []rune
+	step  bool
 }
 
 func (r *Runner) run(src []rune) {
@@ -34,24 +37,27 @@ func (r *Runner) op() {
 		r.cursor++
 	case '<':
 		r.cursor--
-	case '[':
-		loopI := r.i
-		for r.state[r.cursor] > 0 {
-			// if the current char is the end of the loop, go to the beginning
-			if r.src[r.i] == ']' {
-				r.i = loopI
-			}
-			r.i++ // step into the loop
-			r.op()
-
-		}
 	case '.':
-		fmt.Print(string(r.state[r.cursor]))
+		if !r.step {
+			fmt.Print(string(r.state[r.cursor]))
+		} else {
+			r.out = append(r.out, rune(r.state[r.cursor]))
+		}
 	case ',':
 		//user input
+	case '[':
+		r.loopI = r.i
+	case ']':
+		if r.state[r.cursor] > 0 {
+			r.i = r.loopI
+		}
+
 	}
-	fmt.Println(r.state)
-	// buf := bufio.NewReader(os.Stdin)
-	// buf.ReadLine()
-	// fmt.Print("\033c")
+	if r.step {
+		fmt.Println(r.state)
+		fmt.Printf("%v", string(r.out))
+		buf := bufio.NewReader(os.Stdin)
+		buf.ReadLine()
+		fmt.Print("\033c")
+	}
 }
