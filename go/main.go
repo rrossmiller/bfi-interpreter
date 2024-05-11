@@ -10,7 +10,8 @@ import (
 func main() {
 	fname := os.Args[1]
 	src := readFile(fname)
-	r := Runner{step: true}
+	step := false
+	r := Runner{step: step}
 	r.run(src)
 	fmt.Println()
 }
