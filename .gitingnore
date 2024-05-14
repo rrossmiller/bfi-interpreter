@@ -1,4 +1,4 @@
 **/bfi
-**/zig-cache/*
-**/zig-out/*
-**/target
+zig/zig-cache/*
+zig/zig-out/*
+rust/target

@@ -13,7 +13,7 @@ fn main() {
     };
     let file_path = path::Path::new(&file_path);
     let src = read_file(file_path);
-    println!("{}", src);
+    // println!("{}", src);
     let mut runner = run::Runner::init(src);
     runner.run();
 }

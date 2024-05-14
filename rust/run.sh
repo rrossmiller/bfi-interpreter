@@ -3,6 +3,6 @@ clear
 cargo build
 mv target/debug/bfi .
 echo "-----"
-./bfi ../prg.bf 
-# ./bfi ../prg.bfa
+# ./bfi ../prg.bf 
+./bfi ../hello.bf
 

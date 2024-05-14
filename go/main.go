@@ -7,13 +7,29 @@ import (
 	"strings"
 )
 
+const lang = "+-<>[],."
+
 func main() {
-	fname := os.Args[1]
-	src := readFile(fname)
-	step := false
-	r := Runner{step: step}
-	r.run(src)
-	fmt.Println()
+	// fname := os.Args[1]
+	// src := readFile(fname)
+	// step := true
+	// step = false
+	// r := Runner{step: step}
+	// r.run(src)
+	// fmt.Println()
+	t := []int{1, 2, 3, 4}
+
+	//pop
+	a := t[len(t)-1]
+	t = t[:len(t)-1]
+	fmt.Println(a, t)
+	//push
+	t = append(t, 1)
+	fmt.Println(t)
+	//pop
+	a = t[len(t)-1]
+	t = t[:len(t)-1]
+	fmt.Println(a, t)
 }
 
 func readFile(fp string) []rune {
@@ -30,8 +46,11 @@ func readFile(fp string) []rune {
 	if err != nil {
 		panic(err)
 	}
-	s := string(b)
-	s = strings.ReplaceAll(s, "\n", "")
-	src := []rune(s)
+	src := []rune{}
+	for _, s := range string(b) {
+		if strings.ContainsRune(lang, s) {
+			src = append(src, rune(s))
+		}
+	}
 	return src
 }

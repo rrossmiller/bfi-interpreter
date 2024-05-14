@@ -2,12 +2,17 @@ import os
 import sys
 
 
-def run(src: str):
+def rm_extra_chars(src):
+    lang = "+-<>.,[]"
+    return list(filter(lambda x: x in lang, src))
+
+
+def run(src: str, step=True):
+    src = rm_extra_chars(src)
     i = 0
     loop_i = 0
     cursor = 0
-    state = [0 for _ in range(12)]
-    step = False
+    state = [0 for _ in range(1024)]
     out = []
 
     while i < len(src):
@@ -24,7 +29,8 @@ def run(src: str):
             case ".":
                 out.append(chr(state[cursor]))
                 if not step:
-                    print()
+                    print("\033c")
+                    print("".join(o for o in out))
             case ",":
                 pass
                 # user input
@@ -53,4 +59,7 @@ if __name__ == "__main__":
     with open(sys.argv[1]) as f:
         src = f.read()
 
-    run(src)
+    print(src)
+    print("*********")
+    # run(src, step=False)
+    run(src, step=False)
